@@ -27,6 +27,9 @@ const gnuplotcode = HeatMap({
 });
 ```
 
+The GitHub palette only has colors for [0, 5] so you will need to map your data to within
+that range for it to work properly.
+
 ![](https://i.imgur.com/7hpvjss.png)
 
 #### Using an automatic color palette from gnuplot:
