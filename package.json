@@ -2,15 +2,15 @@
   "name": "gnuplot-heatmap",
   "version": "1.0.1",
   "description": "Generate GitHub-like heatmaps for gnuplot",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
     "lib/index.js",
     "lib/index.d.ts"
   ],
   "scripts": {
     "build": "tsc",
-    "prepublish": "tsc"
+    "prepare": "tsc"
   },
   "repository": {
     "type": "git",
