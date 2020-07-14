@@ -1,0 +1,11 @@
+{
+  "include": ["src/index.ts"],
+  "compilerOptions": {
+    "outDir": "lib",
+    "module": "commonjs",
+    "target": "ES5",
+    "inlineSourceMap": true,
+    "declaration": true,
+    "strict": true
+  }
+}
