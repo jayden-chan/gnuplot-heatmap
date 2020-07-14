@@ -10,38 +10,37 @@ export const GITHUB_PALETTE = [
 
 export type HeatmapInputs = {
   title: string;
-  outFile: string;
   data: number[];
   year: number;
+  outFile?: string;
   palette?: string[];
   colorbox?: boolean;
+  width?: number;
 };
 
 /**
  * @param {string} title The title of the heatmap
- * @param {string} outFile The title of the output png
  * @param {number[]} data The data to plot
+ * @param {number} year The year of the plot (needed for alignment)
+ * @param {string} [outFile] The title of the output png
  * @param {string[]} [palette] Alternate color palette to use
  * @param {boolean} [colorbox] Whether or not to include the colorbox
+ * @param {number} [width] Width of the final image in pixels
  *
  * @return {string} The gnuplot script to generate the heatmap
  */
 export default function HeatMap({
   title,
-  outFile,
   data,
   year,
+  outFile,
   palette,
   colorbox,
+  width,
 }: HeatmapInputs): string {
-  const xtics = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    .map((i) => {
-      const week =
-        Number(moment(`${i}-01-${year}`, "M-DD-YYYY").format("w")) - 1;
-      const month = moment(`${i}-01-${year}`, "M-DD-YYYY").format("MMMM");
-      return `"${month}" ${week}`;
-    })
-    .join(", ");
+  const xtics = MONTHS.map((month, i) => {
+    return `"${month}" ${(i + 0.3) * (53 / 12)}`;
+  }).join(", ");
 
   const ytics = Object.entries(DAYS_OF_WEEK)
     .map(([day, idx]) => `"${day}" ${idx}`)
@@ -51,12 +50,16 @@ export default function HeatMap({
     palette === undefined
       ? ""
       : `set palette maxcolors ${palette.length}
-set palette defined (${palette.map((p, idx) => `${idx} '${p}'`).join(", ")})
+set palette defined (${palette.map((p, idx) => `${idx} "${p}"`).join(", ")})
+set cbtics (${palette.map((_, i) => `"${i}" ${i}`).join(", ")})
+set cbrange [-0.5:${palette.length - 0.5}]
 `;
 
-  let script = `set term png size 1770, 325
-set output "${outFile}.png"
+  const imgWidth = width ?? 1900;
+  let script = `set term pngcairo size ${imgWidth}, ${imgWidth / ASPECT_RATIO}
+set output "${outFile ?? "heatmap"}.png"
 set title "${title}"
+set size ratio -1
 set yrange [-0.5:6.5]
 set xrange [-0.5:52.5]
 set xtics (${xtics})
@@ -90,3 +93,20 @@ const DAYS_OF_WEEK: { [key: string]: number } = {
   Fri: 5,
   Sat: 6,
 };
+
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const ASPECT_RATIO = 19 / 4;
