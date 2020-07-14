@@ -1,6 +1,6 @@
 {
   "name": "gnuplot-heatmap",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generate GitHub-like heatmaps for gnuplot",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
