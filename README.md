@@ -1,6 +1,9 @@
 # gnuplot-heatmap
 Generate year-long heatmaps using gnuplot
 
+# ⚠️ Deprecation Notice ⚠️
+This package is deprecated in favor of [svg-heatmap](https://github.com/jayden-chan/svg-heatmap)
+
 ## Installation
 ```
 npm install gnuplot-heatmap
